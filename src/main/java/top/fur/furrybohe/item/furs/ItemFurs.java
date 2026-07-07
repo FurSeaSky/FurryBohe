@@ -1,13 +1,4 @@
 package top.fur.furrybohe.item.furs;
-
-import net.minecraft.world.item.Item;
-import net.minecraftforge.registries.RegistryObject;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import static net.minecraftforge.registries.ForgeRegistries.Keys.ITEMS;
-
 public class ItemFurs {
     public static final String[] FUR_COLORS = {
             "white_fur",          // 白色
