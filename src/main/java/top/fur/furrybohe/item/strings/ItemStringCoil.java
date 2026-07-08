@@ -36,13 +36,11 @@ public class ItemStringCoil extends Item {
     };
 
     public ItemStringCoil(Properties properties) {
-        super(properties.durability(100));
+        super(properties.stacksTo(10));
     }
     @Override
     public boolean isValidRepairItem(ItemStack pStack, ItemStack pRepairCandidate){
-        String source = BuiltInRegistries.ITEM.getKey(pStack.getItem()).getPath();
-        String target = BuiltInRegistries.ITEM.getKey(pRepairCandidate.getItem()).getPath();
-        return Arrays.asList(STRING_COILS_COLORS).contains(source) && Arrays.asList(STRINGS_COLORS).contains(target) && Objects.equals(source.split("_")[0], target.split("_")[0]);
+        return false;
     }
     @Override
     public InteractionResultHolder<ItemStack> use(Level pLevel, Player pPlayer, InteractionHand pHand) {
