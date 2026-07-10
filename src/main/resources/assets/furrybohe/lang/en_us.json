@@ -49,5 +49,7 @@
   "item.furrybohe.brown_string_coil": "Brown String Coil",
   "item.furrybohe.green_string_coil": "Green String Coil",
   "item.furrybohe.red_string_coil": "Red String Coil",
-  "item.furrybohe.black_string_coil": "Black String Coil"
+  "item.furrybohe.black_string_coil": "Black String Coil",
+  "text.furry_bohe.hurtByPin": "Ouch!I'm bleeding!",
+  "text.furry_bohe.pinNoEffect": "Lucy!I'm not bleeding!"
 }

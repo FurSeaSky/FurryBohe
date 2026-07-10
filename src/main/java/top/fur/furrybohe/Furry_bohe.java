@@ -11,6 +11,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import top.fur.furrybohe.config.repo_configs.ModInfo;
 import top.fur.furrybohe.register.RegisterCreativeTab;
+import top.fur.furrybohe.register.RegisterEffects;
 import top.fur.furrybohe.register.RegisterItems;
 
 @Mod(ModInfo.MODID)
@@ -20,6 +21,7 @@ public class Furry_bohe {
         modEventBus.addListener(this::commonSetup);
         modEventBus.addListener(RegisterCreativeTab::registerCreative);
         RegisterItems.ITEMS.register(modEventBus);
+        RegisterEffects.EFFECTS.register(modEventBus);
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
