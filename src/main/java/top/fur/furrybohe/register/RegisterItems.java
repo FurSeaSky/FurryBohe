@@ -5,6 +5,7 @@ import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import top.fur.furrybohe.config.repo_configs.ModInfo;
+import top.fur.furrybohe.item.ItemBottleResin;
 import top.fur.furrybohe.item.ItemFoodFurryBohe;
 import top.fur.furrybohe.item.ItemPin;
 import top.fur.furrybohe.item.furs.ItemFurs;
@@ -32,6 +33,7 @@ public class RegisterItems {
     public static final RegistryObject<Item> ITEM_SEWING_BOX = ITEMS.register("sewing_box",()->new ItemSewingBox(new Item.Properties()));
     public static final RegistryObject<Item> ITEM_PIN = ITEMS.register("pin",()->new ItemPin(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> ITEM_FOOD_FURRYBOHE = ITEMS.register("furry_bohe",()->new ItemFoodFurryBohe(new Item.Properties().stacksTo(64)));
+    public static final RegistryObject<Item> ITEM_BOTTLE_RESIN = ITEMS.register("resin_bottle",()->new ItemBottleResin(new Item.Properties()));
 
     public static void registerItemForeach(){
 
