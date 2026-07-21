@@ -1,13 +1,12 @@
 package top.fur.furrybohe.register;
 
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import top.fur.furrybohe.config.repo_configs.ModInfo;
-import top.fur.furrybohe.item.ItemBottleResin;
-import top.fur.furrybohe.item.ItemFoodFurryBohe;
-import top.fur.furrybohe.item.ItemPin;
+import top.fur.furrybohe.item.*;
 import top.fur.furrybohe.item.furs.ItemFurs;
 import top.fur.furrybohe.item.strings.ItemSewingBox;
 import top.fur.furrybohe.item.strings.ItemStringCoil;
@@ -17,6 +16,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static top.fur.furrybohe.register.RegisterBlocks.RESIN_COLLECTOR;
 
 public class RegisterItems {
 
@@ -34,6 +35,10 @@ public class RegisterItems {
     public static final RegistryObject<Item> ITEM_PIN = ITEMS.register("pin",()->new ItemPin(new Item.Properties().stacksTo(1)));
     public static final RegistryObject<Item> ITEM_FOOD_FURRYBOHE = ITEMS.register("furry_bohe",()->new ItemFoodFurryBohe(new Item.Properties().stacksTo(64)));
     public static final RegistryObject<Item> ITEM_BOTTLE_RESIN = ITEMS.register("resin_bottle",()->new ItemBottleResin(new Item.Properties()));
+    public static final RegistryObject<Item> ITEM_RESIN = ITEMS.register("resin",()->new ItemResin(new Item.Properties()));
+    public static final RegistryObject<Item> ITEM_HARDEN_RESIN = ITEMS.register("harden_resin",()->new ItemHardenResin(new Item.Properties()));
+
+    public static final RegistryObject<Item> RESIN_COLLECTOR_ITEM = ITEMS.register("resin_collector", () -> new BlockItem(RESIN_COLLECTOR.get(), new Item.Properties()));
 
     public static void registerItemForeach(){
 

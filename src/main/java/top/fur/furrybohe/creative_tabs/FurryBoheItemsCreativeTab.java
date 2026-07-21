@@ -22,6 +22,8 @@ public class FurryBoheItemsCreativeTab {
                     output.accept(RegisterItems.ITEM_SEWING_BOX.get());
                     output.accept(RegisterItems.ITEM_FOOD_FURRYBOHE.get());
                     output.accept(RegisterItems.ITEM_BOTTLE_RESIN.get());
+                    output.accept(RegisterItems.ITEM_RESIN.get());
+                    output.accept(RegisterItems.ITEM_HARDEN_RESIN.get());
                 })
                 .build();
     }
