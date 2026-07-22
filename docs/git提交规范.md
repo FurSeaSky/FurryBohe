@@ -76,18 +76,18 @@
 ### 3.5 正确示例
 
 ```bash
-feat(api): 添加用户登录接口
-fix(home): 修复首页列表加载失败
-i18n(zh): 更新设置页中文翻译
-style(ui): 统一按钮圆角大小
-feat(assets): 添加空状态占位图
-docs(README): 补充部署说明
+[feat] 添加用户登录接口
+[fix] 修复首页列表加载失败
+[i18n] 更新设置页中文翻译
+[style] 统一按钮圆角大小
+[art] 添加空状态占位图
+[docs] 补充部署说明
 ```
 
 ### 3.6 错误示例
 
 ```bash
-fix bug           ❌ 缺少 type 和 scope
+fix bug           ❌ 缺少 type
 修改              ❌ 不明确，看不出改了啥
 update            ❌ 太模糊
 feat: 加了个功能  ❌ 缺少 scope，描述不清晰
@@ -136,7 +136,7 @@ feat: 加了个功能  ❌ 缺少 scope，描述不清晰
 4. 在左下角填写提交信息，格式：
 
 ```
-<type>(<scope>): <描述>
+[类别] <描述>
 
 示例：
 i18n(zh): 更新首页中文文案
@@ -205,7 +205,7 @@ git checkout -b feat/功能描述
 
 # 3. 提交改动
 git add .
-git commit -m "feat(api): 添加用户登录接口"
+git commit -m "[feat]: 添加用户登录接口"
 
 # 4. 推送到远程
 git push origin feat/功能描述
@@ -351,7 +351,7 @@ git checkout master && git pull
 git checkout -b feat/xxx
 
 # 提交 & 推送
-git add . && git commit -m "feat(api): 添加登录接口"
+git add . && git commit -m "[feat]: 添加登录接口"
 git push origin feat/xxx
 
 # 合并后清理
