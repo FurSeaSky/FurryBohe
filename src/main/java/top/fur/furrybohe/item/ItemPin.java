@@ -43,11 +43,11 @@ public class ItemPin extends Item {
                             0      // I级
                     );
                     player.addEffect(effectInstance);
-                    player.sendSystemMessage(Component.translatable("text.furry_bohe.hurtByPin"));
+                    player.sendSystemMessage(Component.translatable("text.furrybohe.hurtByPin"));
                     return InteractionResultHolder.consume(itemInHand);
                 }
             } else {
-                player.sendSystemMessage(Component.translatable("text.furry_bohe.pinNoEffect"));
+                player.sendSystemMessage(Component.translatable("text.furrybohe.pinNoEffect"));
                 return InteractionResultHolder.pass(itemInHand);
             }
         }

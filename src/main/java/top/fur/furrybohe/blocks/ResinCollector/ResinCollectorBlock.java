@@ -74,7 +74,7 @@ public class ResinCollectorBlock extends BaseEntityBlock {
                 } else {
                     // 无法收集，提示玩家
                     player.displayClientMessage(
-                            Component.translatable("text.furry_bohe.resin_collector_block.cant_collect"),
+                            Component.translatable("text.furrybohe.resin_collector_block.cant_collect"),
                             true
                     );
                     return InteractionResult.FAIL;
@@ -88,13 +88,13 @@ public class ResinCollectorBlock extends BaseEntityBlock {
                     level.playSound(null, pos, SoundEvents.SLIME_BLOCK_PLACE,
                             SoundSource.BLOCKS, 1.0F, 1.0F);
                     player.displayClientMessage(
-                            Component.translatable("text.furry_bohe.resin_collector_block.resetCD"),
+                            Component.translatable("text.furrybohe.resin_collector_block.resetCD"),
                             true
                     );
                     return InteractionResult.CONSUME;
                 } else {
                     player.displayClientMessage(
-                            Component.translatable("text.furry_bohe.resin_collector_block.not_need_resetCD"),
+                            Component.translatable("text.furrybohe.resin_collector_block.not_need_resetCD"),
                             true
                     );
                     return InteractionResult.FAIL;
@@ -106,7 +106,7 @@ public class ResinCollectorBlock extends BaseEntityBlock {
                 int seconds = entity.getCooldownSeconds();
                 boolean canCollect = entity.canCollect();
                 player.displayClientMessage(
-                        Component.translatable("text.furry_bohe.resin_collector_block.info",(canCollect)? "true":"false",seconds),
+                        Component.translatable("text.furrybohe.resin_collector_block.info",(canCollect)? "true":"false",seconds),
                         true
                 );
                 return InteractionResult.SUCCESS;
