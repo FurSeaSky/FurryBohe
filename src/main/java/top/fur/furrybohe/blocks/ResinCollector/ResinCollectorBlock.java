@@ -112,7 +112,6 @@ public class ResinCollectorBlock extends BaseEntityBlock {
                 return InteractionResult.SUCCESS;
             }
         }
-        // TODO: NEED FIX 0 SECOND AND CAN'T UPDATE CD AND CAN'T RESET CD.
         return InteractionResult.PASS;
     }
 }
