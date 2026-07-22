@@ -50,10 +50,10 @@
   "item.furrybohe.green_string_coil": "Green String Coil",
   "item.furrybohe.red_string_coil": "Red String Coil",
   "item.furrybohe.black_string_coil": "Black String Coil",
-  "text.furry_bohe.hurtByPin": "Ouch!I'm bleeding!",
-  "text.furry_bohe.pinNoEffect": "Lucy!I'm not bleeding!",
-  "text.furry_bohe.resin_collector_block.cant_collect": "The collector is CD",
-  "text.furry_bohe.resin_collector_block.resetCD": "reset resin collector's CD success",
-  "text.furry_bohe.resin_collector_block.not_need_resetCD": "not need reset CD,Because you can use that",
-  "text.furry_bohe.resin_collector_block.info": "reset:%s,second:%ds"
+  "text.furrybohe.hurt_by_pin": "Ouch!I'm bleeding!",
+  "text.furrybohe.pin_no_effect": "Lucy!I'm not bleeding!",
+  "text.furrybohe.resin_collector_block.cant_collect": "The collector is CD",
+  "text.furrybohe.resin_collector_block.resetCD": "reset resin collector's CD success",
+  "text.furrybohe.resin_collector_block.not_need_resetCD": "not need reset CD,Because you can use that",
+  "text.furrybohe.resin_collector_block.info": "reset:%s,second:%ds"
 }
