@@ -50,6 +50,6 @@
   "item.furrybohe.green_string_coil": "绿色线圈",
   "item.furrybohe.red_string_coil": "红色线圈",
   "item.furrybohe.black_string_coil": "黑色线圈",
-  "text.furry_bohe.hurtByPin": "§c呜哇！流血了！好痛！",
-  "text.furry_bohe.pinNoEffect": "§7嘿嘿，针扎不穿我的皮肤，还是别作死的好"
+  "text.furrybohe.hurt_by_pin": "§c呜哇！流血了！好痛！",
+  "text.furrybohe.pin_no_effect": "§7嘿嘿，针扎不穿我的皮肤，还是别作死的好"
 }
