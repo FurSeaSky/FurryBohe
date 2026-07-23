@@ -37,8 +37,9 @@ public class RegisterItems {
     public static final RegistryObject<Item> ITEM_BOTTLE_RESIN = ITEMS.register("resin_bottle",()->new ItemBottleResin(new Item.Properties()));
     public static final RegistryObject<Item> ITEM_RESIN = ITEMS.register("resin",()->new ItemResin(new Item.Properties()));
     public static final RegistryObject<Item> ITEM_HARDEN_RESIN = ITEMS.register("harden_resin",()->new ItemHardenResin(new Item.Properties()));
+    public static final RegistryObject<Item> ITEM_CAT_COLLECTOR = ITEMS.register("cat_collector",()->new ItemCatCollector(new Item.Properties()));
 
-    public static final RegistryObject<Item> RESIN_COLLECTOR_ITEM = ITEMS.register("resin_collector", () -> new BlockItem(RESIN_COLLECTOR.get(), new Item.Properties()));
+    public static final RegistryObject<Item> ITEM_RESIN_COLLECTOR = ITEMS.register("resin_collector", () -> new BlockItem(RESIN_COLLECTOR.get(), new Item.Properties()));
 
     public static void registerItemForeach(){
 

@@ -106,7 +106,7 @@ public class ResinCollectorBlock extends BaseEntityBlock {
                 int seconds = entity.getCooldownSeconds();
                 boolean canCollect = entity.canCollect();
                 player.displayClientMessage(
-                        Component.translatable("text.furrybohe.resin_collector_block.info",(canCollect)? "true":"false",seconds),
+                        Component.translatable("text.furrybohe.resin_collector_block.info", Boolean.toString(canCollect),seconds),
                         true
                 );
                 return InteractionResult.SUCCESS;

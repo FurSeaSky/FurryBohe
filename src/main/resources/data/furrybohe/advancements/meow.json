@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "impossible_trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "description": {
+      "text": "advancement.furrybohe.meow.description"
+    },
+    "frame": "challenge",
+    "hidden": false,
+    "icon": {
+      "item": "furrybohe:cat_collector"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "advancement.furrybohe.meow"
+    }
+  },
+  "requirements": [
+    [
+      "impossible_trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
