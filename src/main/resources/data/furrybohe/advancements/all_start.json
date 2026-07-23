@@ -1,0 +1,29 @@
+{
+  "criteria": {
+    "impossible_trigger": {
+      "trigger": "minecraft:impossible"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "background": "minecraft:textures/gui/advancements/backgrounds/stone.png",
+    "description": {
+      "text": "advancement.furrybohe.all_start.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "furrybohe:furry_bohe"
+    },
+    "show_toast": true,
+    "title": {
+      "text": "advancement.furrybohe.all_start"
+    }
+  },
+  "requirements": [
+    [
+      "impossible_trigger"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
