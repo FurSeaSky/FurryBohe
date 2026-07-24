@@ -142,3 +142,23 @@ tasks.named('jar', Jar).configure {
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8'
 }
+processResources {
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+}
+
+
+tasks.register('copyGeneratedData', Copy) {
+    from 'src/generated/resources/data/'
+    into 'src/main/resources/data/'
+    include '**/*.json'
+    duplicatesStrategy = DuplicatesStrategy.INCLUDE
+    doLast {
+        println '已从 src/generated/resources 复制数据到 src/main/resources'
+    }
+}
+tasks.register('cleanGeneratedResources', Delete) {
+    delete 'src/generated/resources/'
+    doLast {
+        println '已清理 src/generated/resources 目录'
+    }
+}
