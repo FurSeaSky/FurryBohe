@@ -15,6 +15,7 @@ import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.event.entity.player.AdvancementEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.util.thread.SidedThreadGroups;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import top.fur.furrybohe.config.repo_configs.ModInfo;
@@ -22,22 +23,19 @@ import top.fur.furrybohe.item.ItemCatCollector;
 
 import java.util.List;
 
-@Mod.EventBusSubscriber(modid = ModInfo.MODID)
 public class CatCollectorTickEvent {
     private static final Logger LOGGER = LogManager.getLogger(CatCollectorTickEvent.class);
     private static final double SEARCH_RADIUS = 5.0;
-    private static final int CHECK_INTERVAL = 20; // 每 20 Tick（1秒）检测一次
-
-    @SubscribeEvent
+    private static final int CHECK_INTERVAL = 20;
     public static void onPlayerTick(TickEvent.PlayerTickEvent event) {
         if (event.side.isClient()) {
             return;
         }
 
         Player player = event.player;
-
         ItemStack mainHand = player.getMainHandItem();
         ItemStack offHand = player.getOffhandItem();
+
         boolean hasCollector = (mainHand.getItem() instanceof ItemCatCollector) ||
                 (offHand.getItem() instanceof ItemCatCollector);
 
@@ -45,12 +43,12 @@ public class CatCollectorTickEvent {
             return;
         }
 
-        // 关键：每 20 Tick 才执行一次检测逻辑
-        if (player.tickCount % CHECK_INTERVAL != 0) {
+        if (player.tickCount % CHECK_INTERVAL != 0) {;
             return;
         }
 
         Level level = player.level();
+
         AABB searchBox = new AABB(
                 player.getX() - SEARCH_RADIUS,
                 player.getY() - SEARCH_RADIUS,
@@ -65,35 +63,39 @@ public class CatCollectorTickEvent {
             return;
         }
 
-        CompoundTag data = player.getPersistentData();
-        if (!data.contains("cat_power")) {
-            data.putByte("cat_power", (byte) 0);
-        }
 
-        byte currentPower = data.getByte("cat_power");
-        int addPower = nearbyCats.size();
-        int newPower = currentPower + addPower;
-
-        if (newPower >= 100) {
-            data.putByte("cat_power", (byte) 0);
-
-            player.sendSystemMessage(Component.translatable("text.furrybohe.meow.getsuccess"));
-
-            Advancement advancement = ((ServerPlayer) player).server.getAdvancements()
-                    .getAdvancement(new ResourceLocation(ModInfo.MODID, "meow"));
-            if (advancement != null) {
-                LOGGER.info("Advancement found, posting AdvancementEarnEvent for player: {}", player.getName().getString());
-                MinecraftForge.EVENT_BUS.post(new AdvancementEvent.AdvancementEarnEvent(player, advancement));
-                LOGGER.info("AdvancementEarnEvent posted successfully");
-            } else {
-                LOGGER.warn("Advancement '{}:meow' not found!", ModInfo.MODID);
+        new Thread(() -> {
+            String threadName = Thread.currentThread().getName();
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                return;
             }
-        } else {
-            data.putByte("cat_power", (byte) newPower);
-            player.sendSystemMessage(Component.translatable(
-                    "text.furrybohe.collect_cat_power.info",
-                    data.getByte("cat_power")
-            ));
-        }
+
+            CompoundTag data = player.getPersistentData();
+            if (!data.contains("cat_power")) {
+                data.putByte("cat_power", (byte) 0);
+            }
+
+            byte currentPower = data.getByte("cat_power");
+            int addPower = nearbyCats.size();
+            int newPower = currentPower + addPower;
+            if (newPower >= 100) {
+                data.putByte("cat_power", (byte) 0);
+                Component message = Component.translatable("text.furrybohe.meow.getsuccess");
+                player.sendSystemMessage(message);
+                Advancement advancement = ((ServerPlayer) player).server.getAdvancements().getAdvancement(new ResourceLocation(ModInfo.MODID, "meow"));
+                if (advancement != null) {
+                    AdvancementEvent.AdvancementEarnEvent earnEvent =
+                            new AdvancementEvent.AdvancementEarnEvent(player, advancement);
+                    ((ServerPlayer)player).getAdvancements().award(advancement, "impossible_trigger");
+                }
+            } else {
+                data.putByte("cat_power", (byte) newPower);
+                Component message = Component.translatable("text.furrybohe.collect_cat_power.info", data.getByte("cat_power"));
+                player.sendSystemMessage(message);
+            }
+        }).start();
     }
 }

@@ -57,22 +57,16 @@ public class ResinCollectorBlock extends BaseEntityBlock {
     public InteractionResult use(BlockState state, Level level, BlockPos pos,
                                  Player player, InteractionHand hand, BlockHitResult hit) {
         if (level.isClientSide) {
-            return InteractionResult.SUCCESS; // 客户端只返回成功
+            return InteractionResult.SUCCESS;
         }
-
-        // 获取 BlockEntity
         if (level.getBlockEntity(pos) instanceof ResinCollectorBlockEntity entity) {
             ItemStack heldItem = player.getItemInHand(hand);
-
-            // 情况1：玩家拿着玻璃瓶 → 尝试收集树脂
             if (heldItem.getItem() == Items.GLASS_BOTTLE) {
                 if (entity.tryCollectResin(player)) {
-                    // 成功收集，播放音效
                     level.playSound(null, pos, SoundEvents.BOTTLE_FILL,
                             SoundSource.BLOCKS, 1.0F, 1.0F);
                     return InteractionResult.CONSUME;
                 } else {
-                    // 无法收集，提示玩家
                     player.displayClientMessage(
                             Component.translatable("text.furrybohe.resin_collector_block.cant_collect"),
                             true
@@ -80,11 +74,8 @@ public class ResinCollectorBlock extends BaseEntityBlock {
                     return InteractionResult.FAIL;
                 }
             }
-
-            // 情况2：玩家拿着粘液球 → 重置冷却
             if (heldItem.getItem() == Items.SLIME_BALL) {
                 if (entity.resetCooldownWithSlime(player)) {
-                    // 成功重置，播放音效
                     level.playSound(null, pos, SoundEvents.SLIME_BLOCK_PLACE,
                             SoundSource.BLOCKS, 1.0F, 1.0F);
                     player.displayClientMessage(
@@ -100,9 +91,7 @@ public class ResinCollectorBlock extends BaseEntityBlock {
                     return InteractionResult.FAIL;
                 }
             }
-
-            // 情况3：手持其他物品，显示状态
-            if (player.isShiftKeyDown()) { // 潜行时显示信息
+            if (player.isShiftKeyDown()) {
                 int seconds = entity.getCooldownSeconds();
                 boolean canCollect = entity.canCollect();
                 player.displayClientMessage(
