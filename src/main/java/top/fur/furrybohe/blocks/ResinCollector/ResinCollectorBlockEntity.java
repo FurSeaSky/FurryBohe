@@ -32,8 +32,7 @@ public class ResinCollectorBlockEntity extends BlockEntity {
     private int validateCounter = 0;
 
     public ResinCollectorBlockEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntitys.RESIN_COLLECTOR.get(), pos, state);
-        LOGGER.info("[FURBOHE] ResinCollectorBlockEntity created at position: {}", pos);
+        super(RegisterBlockEntitys.RESIN_COLLECTOR_ENTITY.get(), pos, state);
     }
 
     private boolean validateLocation() {
