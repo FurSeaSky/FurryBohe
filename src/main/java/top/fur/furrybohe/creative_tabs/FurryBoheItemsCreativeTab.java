@@ -18,6 +18,7 @@ public class FurryBoheItemsCreativeTab {
                     RegisterItems.furItemList.forEach(reg -> output.accept(reg.get()));
                     RegisterItems.stringCoilList.forEach(reg -> output.accept(reg.get()));
                     RegisterItems.stringItemList.forEach(reg -> output.accept(reg.get()));
+                    RegisterItems.crystalList.forEach(reg -> output.accept(reg.get()));
                     output.accept(RegisterItems.ITEM_PIN.get());
                     output.accept(RegisterItems.ITEM_SEWING_BOX.get());
                     output.accept(RegisterItems.ITEM_FOOD_FURRYBOHE.get());

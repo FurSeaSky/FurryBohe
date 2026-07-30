@@ -59,5 +59,6 @@
   "text.furrybohe.collect_cat_power.success": "Collect cat power success,your cat power:%d",
   "text.furrybohe.collect_cat_power.info": "Your cat power:%d",
   "text.furrybohe.meow.getsuccess": "congratulations!You get a speacil advacnement!Try ToNeko Mod also!",
-  "text.furrybohe.collect_cat_power.max": "Your cat power overflow!We reset to zero:%d"
+  "text.furrybohe.collect_cat_power.max": "Your cat power overflow!We reset to zero:%d",
+  "text.furrybohe.null_crystal.description.info": "Just a null crystal.Maybe lost some magic"
 }

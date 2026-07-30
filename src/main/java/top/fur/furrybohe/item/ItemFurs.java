@@ -1,4 +1,4 @@
-package top.fur.furrybohe.item.furs;
+package top.fur.furrybohe.item;
 public class ItemFurs {
     public static final String[] FUR_COLORS = {
             "white_fur",          // 白色
