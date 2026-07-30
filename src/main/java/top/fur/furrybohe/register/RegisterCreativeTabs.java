@@ -6,10 +6,12 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.RegistryObject;
 import top.fur.furrybohe.config.repo_configs.ModInfo;
+import top.fur.furrybohe.creative_tabs.FurryBoheArchivesCreativeTab;
 import top.fur.furrybohe.creative_tabs.FurryBoheItemsCreativeTab;
 
 public class RegisterCreativeTabs {
     public static final DeferredRegister<CreativeModeTab> CREATIVE_MODE_TABS =DeferredRegister.create(Registries.CREATIVE_MODE_TAB, ModInfo.MODID);
 
     public static final RegistryObject<CreativeModeTab> ITEMS_TAB = CREATIVE_MODE_TABS.register("items_tab", FurryBoheItemsCreativeTab::create);
+    public static final RegistryObject<CreativeModeTab> ARCHIVES_TAB = CREATIVE_MODE_TABS.register("archives_tab", FurryBoheArchivesCreativeTab::create);
 }

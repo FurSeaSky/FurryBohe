@@ -47,7 +47,7 @@ public class ResinCollectorBlock extends BaseEntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (!level.isClientSide) {
-            return createTickerHelper(type, RegisterBlockEntitys.RESIN_COLLECTOR.get(),
+            return createTickerHelper(type, RegisterBlockEntitys.RESIN_COLLECTOR_ENTITY.get(),
                     ResinCollectorBlockEntity::serverTick);
         }
         return null;
