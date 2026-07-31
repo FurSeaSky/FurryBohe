@@ -1,0 +1,12 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "particle": "furrybohe:block/fur_create_break",
+    "down": "furrybohe:block/fur_create_under",
+    "up": "furrybohe:block/fur_create_top",
+    "north": "furrybohe:block/fur_create_back",
+    "south": "furrybohe:block/fur_create_front",
+    "west": "furrybohe:block/fur_create_front",
+    "east": "furrybohe:block/fur_create_front"
+  }
+}
