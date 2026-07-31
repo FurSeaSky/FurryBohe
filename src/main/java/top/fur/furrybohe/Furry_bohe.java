@@ -30,6 +30,7 @@ public class Furry_bohe {
         RegisterItems.ITEMS.register(modEventBus);
         RegisterEffects.EFFECTS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(new RegisterCapability());
+        RegisterAffixes.register();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
