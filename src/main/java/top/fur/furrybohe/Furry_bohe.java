@@ -23,6 +23,7 @@ public class Furry_bohe {
 
     public Furry_bohe(){
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        RegisterAffixs.registerAll();
         modEventBus.addListener(this::commonSetup);
         RegisterBlockEntitys.BLOCK_ENTITIES.register(modEventBus);
         RegisterBlocks.BLOCKS.register(modEventBus);
