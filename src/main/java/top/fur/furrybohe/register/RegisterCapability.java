@@ -2,6 +2,7 @@ package top.fur.furrybohe.register;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -13,8 +14,7 @@ import top.fur.furrybohe.capability.PlayerCapabilityProvider;
 
 public class RegisterCapability {
     public static boolean shouldMountCapability(Item item) {
-        // 由于装备部分没有完成 所以为空
-        return false;
+        return item instanceof ArmorItem;
     }
 
     @SubscribeEvent
