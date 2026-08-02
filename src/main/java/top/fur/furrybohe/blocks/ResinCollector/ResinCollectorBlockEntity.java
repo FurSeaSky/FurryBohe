@@ -18,7 +18,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
-import top.fur.furrybohe.register.RegisterBlockEntitys;
+import top.fur.furrybohe.register.RegisterBlockEntities;
 import top.fur.furrybohe.register.RegisterItems;
 
 public class ResinCollectorBlockEntity extends BlockEntity {
@@ -32,7 +32,7 @@ public class ResinCollectorBlockEntity extends BlockEntity {
     private int validateCounter = 0;
 
     public ResinCollectorBlockEntity(BlockPos pos, BlockState state) {
-        super(RegisterBlockEntitys.RESIN_COLLECTOR_ENTITY.get(), pos, state);
+        super(RegisterBlockEntities.RESIN_COLLECTOR_ENTITY.get(), pos, state);
     }
 
     private boolean validateLocation() {

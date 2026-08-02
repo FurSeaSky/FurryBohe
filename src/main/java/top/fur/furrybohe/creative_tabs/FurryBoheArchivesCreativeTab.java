@@ -17,6 +17,7 @@ public class FurryBoheArchivesCreativeTab {
                     output.accept(RegisterItems.ITEM_FURRY_WORK_STATION.get());
                     output.accept(RegisterItems.ITEM_RESIN_COLLECTOR.get());
                     output.accept(RegisterItems.ITEM_CRYSTAL_WORK_BLOCK.get());
+                    output.accept(RegisterItems.ITEM_DRYING_RACK.get());
                 })
                 .build();
     }

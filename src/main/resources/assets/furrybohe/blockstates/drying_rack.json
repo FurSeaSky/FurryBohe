@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "furrybohe:block/drying_rack"
+    },
+    "facing=east": {
+      "model": "furrybohe:block/drying_rack",
+      "y": 90
+    },
+    "facing=south": {
+      "model": "furrybohe:block/drying_rack",
+      "y": 180
+    },
+    "facing=west": {
+      "model": "furrybohe:block/drying_rack",
+      "y": 270
+    }
+  }
+}
