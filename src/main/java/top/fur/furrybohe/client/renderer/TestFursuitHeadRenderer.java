@@ -17,33 +17,38 @@ import java.util.Set;
 public class TestFursuitHeadRenderer extends GeoArmorRenderer<TestFursuitHead> {
     private static final Set<String> HEAD_BONES = new HashSet<>();
     static {
-        //HEAD_BONES.add("Root");
-        //HEAD_BONES.add("AllBody");
-        //HEAD_BONES.add("UpBody");
-        HEAD_BONES.add("AllHead");
-        HEAD_BONES.add("Head");
-        HEAD_BONES.add("Face");
-        HEAD_BONES.add("RightLash");
-        HEAD_BONES.add("LeftLash");
-        HEAD_BONES.add("AllHead2");
-        HEAD_BONES.add("Ear");
-        HEAD_BONES.add("LeftEar");
-        HEAD_BONES.add("RightEar");
-        //HEAD_BONES.add("LeftFur");
-        //HEAD_BONES.add("RightFur");
+        HEAD_BONES.add("DownBody");
+        HEAD_BONES.add("Body");
+        HEAD_BONES.add("Arm");
     }
     public TestFursuitHeadRenderer() {
         super(new TestFursuitHeadModel());
     }
-
+    private void hiddenChildBone(CoreGeoBone bone) {
+        if (HEAD_BONES.contains(bone.getName())) {
+            //System.out.println("setHidden: " + bone.getName());
+            bone.setHidden(true);
+            hideSubtree(bone);
+            return;
+        } else {
+            //System.out.println("setShow: " + bone.getName());
+        }
+        for (CoreGeoBone childBone : bone.getChildBones()) {
+            hiddenChildBone(childBone);
+        }
+    }
+    private void hideSubtree(CoreGeoBone bone) {
+        for (CoreGeoBone child : bone.getChildBones()) {
+            //System.out.println("  setHidden(subtree): " + child.getName());
+            child.setHidden(true);
+            hideSubtree(child);
+        }
+    }
     @Override
     public void preRender(PoseStack poseStack, TestFursuitHead animatable, BakedGeoModel model, MultiBufferSource bufferSource, VertexConsumer buffer, boolean isReRender, float partialTick, int packedLight, int packedOverlay, float red, float green, float blue, float alpha) {
         for (CoreGeoBone bone : model.getBones()) {
-            String name = bone.getName();
-            // 如果是头部骨骼则显示，否则隐藏
-            bone.setHidden(!HEAD_BONES.contains(name));
+            hiddenChildBone(bone);
         }
-
         super.preRender(poseStack, animatable, model, bufferSource, buffer,
                 isReRender, partialTick, packedLight, packedOverlay,
                 red, green, blue, alpha);
