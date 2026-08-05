@@ -5,6 +5,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
+import net.minecraftforge.eventbus.api.IEventBus;
 import top.fur.furrybohe.Furry_bohe;
 import top.fur.furrybohe.base.BaseAffix;
 import top.fur.furrybohe.capability.FurArmorCapability;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+
 /**
  * 失败制作词条
  * 效果：玩家行动时（移动/跳跃/攻击），有1%概率使装备脱落
@@ -21,20 +23,20 @@ import java.util.Random;
 public class FailCreateAffix extends BaseAffix {
 
     private static final Random RANDOM = new Random();
-    private static final double DROP_CHANCE = 0.01;
+    private static final double DROP_CHANCE = 0.1;
     private static final double MOVE_THRESHOLD = 0.0001;
 
     private final Map<Player, PlayerMovementData> movementCache = new HashMap<>();
 
     public FailCreateAffix() {
-        super("fail_create_affix", AffixRarity.COMMON, AffixType.NEGATIVE, AffixSlot.ANY, 1);
+        super("fail_create", AffixRarity.COMMON, AffixType.NEGATIVE, AffixSlot.ANY, 1);
     }
 
     // ======================== 事件注册 ========================
 
     @Override
-    protected void registerEventHandlers() {
-        registerEventHandler(TickEvent.PlayerTickEvent.class, this::onPlayerTick);
+    public void registerEventHandlers(IEventBus bus) {
+        bus.addListener(this::onPlayerTick);
     }
 
     // ======================== 生命周期 ========================
@@ -54,7 +56,9 @@ public class FailCreateAffix extends BaseAffix {
     /**
      * 每 tick 检测玩家动作，触发脱落判定
      */
-    private void onPlayerTick(Player player, TickEvent.PlayerTickEvent event) {
+    private void onPlayerTick(final TickEvent.PlayerTickEvent event) {
+        System.out.println("FailCreateAffix has been actived tick");
+        Player player = event.player;
         if (!shouldProcess(event)) return;
 
         ItemStack armor = findAffectedArmor(player);
@@ -101,25 +105,103 @@ public class FailCreateAffix extends BaseAffix {
     // ======================== 工具方法 ========================
 
     private boolean shouldProcess(TickEvent.PlayerTickEvent event) {
-        return event.phase == TickEvent.Phase.END && !event.player.level().isClientSide;
+        var result = event.phase == TickEvent.Phase.END && !event.player.level().isClientSide;
+        System.out.println("isBegin:"+(event.phase == TickEvent.Phase.START)+"isClientSide:"+event.player.level().isClientSide);
+        return result;
     }
 
     private boolean shouldDrop() {
-        return RANDOM.nextDouble() < DROP_CHANCE;
+        double rnd = RANDOM.nextDouble()%10;
+        System.out.println("Rnd:"+rnd+"Drop:"+DROP_CHANCE+"Drop?:"+(rnd<DROP_CHANCE));
+        return  rnd< DROP_CHANCE;
     }
 
     /**
      * 查找带有此词条的护甲
      */
     private ItemStack findAffectedArmor(Player player) {
+        // 记录方法入口
+        Furry_bohe.LOGGER.debug("开始查找受影响的盔甲，玩家: {}", player.getName().getString());
+
+        // 获取要查找的附魔ID
         ResourceLocation affixId = Furry_bohe.rl(getId());
-        for (ItemStack armor : player.getArmorSlots()) {
-            if (armor.isEmpty()) continue;
-            FurArmorCapability cap = FurArmorCapabilityProvider.get(armor);
-            if (cap != null && cap.hasAffix(affixId)) {
-                return armor;
-            }
+        Furry_bohe.LOGGER.debug("目标附魔ID: {}", affixId);
+
+        // 检查玩家是否在线/有效
+        if (player == null) {
+            Furry_bohe.LOGGER.warn("玩家对象为空，无法查找盔甲");
+            return ItemStack.EMPTY;
         }
+
+        // 获取玩家的盔甲栏位并遍历
+        Iterable<ItemStack> armorSlots = player.getArmorSlots();
+        int slotIndex = 0;
+
+        for (ItemStack armor : armorSlots) {
+            Furry_bohe.LOGGER.trace("检查第 {} 个盔甲栏位，物品: {}", slotIndex, armor.isEmpty() ? "空" : armor.getDisplayName().getString());
+
+            if (armor.isEmpty()) {
+                Furry_bohe.LOGGER.trace("第 {} 个盔甲栏位为空，跳过", slotIndex);
+                slotIndex++;
+                continue;
+            }
+
+            // 记录物品详情
+            Furry_bohe.LOGGER.debug("检查物品: {}, 数量: {}, 物品ID: {}",
+                    armor.getDisplayName().getString(),
+                    armor.getCount(),
+                    armor.getItem().toString());
+
+            try {
+                // 获取盔甲能力数据
+                FurArmorCapability cap = FurArmorCapabilityProvider.get(armor);
+
+                if (cap == null) {
+                    Furry_bohe.LOGGER.debug("物品 {} 没有FurArmor能力数据", armor.getDisplayName().getString());
+                    slotIndex++;
+                    continue;
+                }
+
+                // 检查是否包含目标附魔
+                boolean hasAffix = cap.hasAffix(affixId);
+// 先记录检查结果
+                Furry_bohe.LOGGER.debug("物品 {} 是否包含附魔 {}: {}",
+                        armor.getDisplayName().getString(),
+                        affixId,
+                        hasAffix);
+
+// 输出所有附魔详情
+                if (cap.getAffixes() != null && !cap.getAffixes().isEmpty()) {
+                    Furry_bohe.LOGGER.debug("物品 {} 当前包含的所有附魔:", armor.getDisplayName().getString());
+                    for (ResourceLocation affix : cap.getAffixes().keySet()) {
+                        Furry_bohe.LOGGER.debug("  - {}", affix);
+                    }
+                } else {
+                    Furry_bohe.LOGGER.debug("物品 {} 没有任何附魔", armor.getDisplayName().getString());
+                }
+
+                if (hasAffix) {
+                    Furry_bohe.LOGGER.info("找到受影响的盔甲: {} (槽位: {}), 附魔ID: {}",
+                            armor.getDisplayName().getString(),
+                            slotIndex,
+                            affixId);
+                    return armor;
+                }
+
+            } catch (Exception e) {
+                Furry_bohe.LOGGER.error("检查盔甲 {} 时发生异常: {}",
+                        armor.getDisplayName().getString(),
+                        e.getMessage(),
+                        e);
+            }
+
+            slotIndex++;
+        }
+
+        // 未找到任何符合条件的盔甲
+        Furry_bohe.LOGGER.debug("未在玩家 {} 的盔甲栏位中找到包含附魔 {} 的盔甲",
+                player.getName().getString(),
+                affixId);
         return ItemStack.EMPTY;
     }
 
@@ -127,22 +209,7 @@ public class FailCreateAffix extends BaseAffix {
      * 执行装备脱落
      */
     private void dropArmor(Player player, ItemStack armor) {
-        // 1. 从护甲槽位移除
-        for (int i = 0; i < player.getInventory().armor.size(); i++) {
-            if (player.getInventory().armor.get(i) == armor) {
-                player.getInventory().armor.set(i, ItemStack.EMPTY);
-                break;
-            }
-        }
-
-        // 2. 掉落到地面
-        player.drop(armor, false);
-
-        // 3. 清理词条数据
-        FurArmorCapability cap = FurArmorCapabilityProvider.get(armor);
-        if (cap != null) {
-            cap.removeAffix(this);
-        }
+        player.drop(armor,true);
     }
 
     // ======================== 内部类 ========================

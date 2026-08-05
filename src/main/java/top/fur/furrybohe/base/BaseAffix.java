@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraftforge.eventbus.api.Event;
+import net.minecraftforge.eventbus.api.IEventBus;
 import top.fur.furrybohe.Furry_bohe;
 import top.fur.furrybohe.capability.FurArmorCapability;
 import top.fur.furrybohe.register.RegisterEventHandlers;
@@ -52,15 +53,7 @@ public abstract class BaseAffix {
      */
     public void deserialize(CompoundTag nbt) {}
 
-    protected void registerEventHandlers() {}
-    protected <T extends Event> void registerEventHandler(Class<T> eventClass,
-                                                          BiConsumer<Player, T> handler) {
-        eventHandlers.register(eventClass, (player, event) -> {
-            if (event instanceof Event) {
-                handler.accept(player, (T) event);
-            }
-        });
-    }
+    public void registerEventHandlers(IEventBus bus) {}
 
     public String getId() { return id; }
     public AffixRarity getRarity() { return rarity; }
