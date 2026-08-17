@@ -19,7 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import top.fur.furrybohe.register.RegisterBlockEntitys;
+import top.fur.furrybohe.register.RegisterBlockEntities;
 
 public class ResinCollectorBlock extends BaseEntityBlock {
     public ResinCollectorBlock(Properties properties) {
@@ -47,7 +47,7 @@ public class ResinCollectorBlock extends BaseEntityBlock {
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
         if (!level.isClientSide) {
-            return createTickerHelper(type, RegisterBlockEntitys.RESIN_COLLECTOR_ENTITY.get(),
+            return createTickerHelper(type, RegisterBlockEntities.RESIN_COLLECTOR_ENTITY.get(),
                     ResinCollectorBlockEntity::serverTick);
         }
         return null;

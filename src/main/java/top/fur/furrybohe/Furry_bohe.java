@@ -24,7 +24,7 @@ public class Furry_bohe {
     public Furry_bohe(){
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         modEventBus.addListener(this::commonSetup);
-        RegisterBlockEntitys.BLOCK_ENTITIES.register(modEventBus);
+        RegisterBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         RegisterBlocks.BLOCKS.register(modEventBus);
         RegisterCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         RegisterItems.ITEMS.register(modEventBus);
