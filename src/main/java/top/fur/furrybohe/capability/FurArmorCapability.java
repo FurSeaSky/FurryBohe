@@ -21,7 +21,7 @@ public class FurArmorCapability implements INBTSerializable<CompoundTag> {
     // 潮湿度
     public int wetValue = 0;
     // 词条 暂时用Object 之后得上注册表
-    public final Map<ResourceLocation,Integer> affixes = new LinkedHashMap<>();
+    public final Map<ResourceLocation,Integer> affixesLevel = new LinkedHashMap<>();
     private final Map<ResourceLocation, CompoundTag> affixData = new HashMap<>();
     private final Map<ResourceLocation, BaseAffix> affixCache = new HashMap<>();
     private final List<BaseAffix> tickListeners = new ArrayList<>();
@@ -29,18 +29,17 @@ public class FurArmorCapability implements INBTSerializable<CompoundTag> {
     public FurArmorCapability(ItemStack itemStack) {
         this.itemStack = itemStack;
     }
-
     @Override
     public CompoundTag serializeNBT() {
         CompoundTag nbt = new CompoundTag();
         nbt.putInt("dirtyValue", dirtyValue);
         nbt.putInt("wetValue", wetValue);
-        CompoundTag affixesNbt = new CompoundTag();
-        CompoundTag affixNbt = new CompoundTag();
-        for (Map.Entry<ResourceLocation, Integer> entry : affixes.entrySet()) {
+
+        CompoundTag affixNbt = new CompoundTag();  // ← 直接用这个
+        for (Map.Entry<ResourceLocation, Integer> entry : affixesLevel.entrySet()) {
             CompoundTag tag = new CompoundTag();
             tag.putInt("level", entry.getValue());
-            // 让词条自己序列化额外数据,其实是我懒得写了
+
             BaseAffix affix = RegisterAffixs.get(entry.getKey());
             if (affix != null) {
                 CompoundTag data = affix.serialize();
@@ -48,35 +47,43 @@ public class FurArmorCapability implements INBTSerializable<CompoundTag> {
                     tag.put("data", data);
                 }
             }
+
             CompoundTag storedData = affixData.get(entry.getKey());
             if (storedData != null && !storedData.isEmpty()) {
                 tag.put("stored_data", storedData);
             }
-            affixNbt.put(entry.getKey().toString(), tag);
+
+            affixNbt.put(entry.getKey().toString(), tag);  // ← 存到 affixNbt
         }
-        nbt.put("affixes", affixesNbt);
+
+        nbt.put("affixesLevel", affixNbt);  // ← 存 affixNbt，不是空对象！
         return nbt;
     }
-
     @Override
     public void deserializeNBT(CompoundTag nbt) {
         if (nbt == null || nbt.isEmpty()) {
             this.dirtyValue = 0;
             this.wetValue = 0;
-            this.affixes.clear();
+            this.affixesLevel.clear();
+            this.affixCache.clear();
+            this.tickListeners.clear();
             return;
         }
-        affixes.clear();
+
+        // 清空所有数据
+        affixesLevel.clear();
+        affixCache.clear();
+        tickListeners.clear();
+        affixData.clear();
+
         dirtyValue = nbt.getInt("dirtyValue");
         wetValue = nbt.getInt("wetValue");
 
-        affixes.clear();
-        affixData.clear();
-        affixCache.clear();
-        tickListeners.clear();
+        CompoundTag affixNbt = nbt.getCompound("affixesLevel");
+        if (affixNbt.isEmpty()) {
+            return;  // ← 没有数据，直接返回
+        }
 
-        // 反序列化词条
-        CompoundTag affixNbt = nbt.getCompound("affixes");
         for (String key : affixNbt.getAllKeys()) {
             ResourceLocation affixId = ResourceLocation.tryParse(key);
             if (affixId == null) continue;
@@ -84,11 +91,15 @@ public class FurArmorCapability implements INBTSerializable<CompoundTag> {
             CompoundTag tag = affixNbt.getCompound(key);
             int level = tag.getInt("level");
 
-            try {
-                addAffix(affixId, level);
-            } catch (NoSuchMethodException e) {
-                throw new RuntimeException(e);
+            // 直接操作 Map，不调用 addAffix（避免 tickListeners 重复添加）
+            BaseAffix affix = RegisterAffixs.get(affixId);
+            if (affix == null) {
+                Furry_bohe.LOGGER.warn("未知词条: {}", affixId);
+                continue;
             }
+
+            affixesLevel.put(affixId, level);
+            affixCache.put(affixId, affix);
 
             // 恢复词条数据
             if (tag.contains("stored_data")) {
@@ -96,48 +107,61 @@ public class FurArmorCapability implements INBTSerializable<CompoundTag> {
             }
 
             // 让词条自己反序列化
-            BaseAffix affix = RegisterAffixs.get(affixId);
-            if (affix != null && tag.contains("data")) {
+            if (tag.contains("data")) {
                 affix.deserialize(tag.getCompound("data"));
+            }
+
+            // 检查是否需要 tick
+            try {
+                if (affix.getClass().getMethod("onTick", Player.class, ItemStack.class,
+                                FurArmorCapability.class, int.class)
+                        .getDeclaringClass() != BaseAffix.class) {
+                    tickListeners.add(affix);
+                }
+            } catch (NoSuchMethodException e) {
+                // 没有 onTick 方法，忽略
             }
         }
     }
 
-    public void addAffix(ResourceLocation affixId, int level) throws NoSuchMethodException {
+    public void addAffix(ResourceLocation affixId, int level) {
         BaseAffix affix = RegisterAffixs.get(affixId);
         if (affix == null) return;
 
-        affixes.put(affixId, level);
+        affixesLevel.put(affixId, level);
         affixCache.put(affixId, affix);
 
-        // 如果是需要tick的，加入监听列表
-        if (affix.getClass().getMethod("onTick", Player.class, ItemStack.class,
-                        FurArmorCapability.class, int.class)
-                .getDeclaringClass() != BaseAffix.class) {
-            tickListeners.add(affix);
+        // 检查是否需要 tick
+        try {
+            if (affix.getClass().getMethod("onTick", Player.class, ItemStack.class,
+                            FurArmorCapability.class, int.class)
+                    .getDeclaringClass() != BaseAffix.class) {
+                if (!tickListeners.contains(affix)) {  // ← 避免重复添加
+                    tickListeners.add(affix);
+                }
+            }
+        } catch (NoSuchMethodException e) {
+            // 没有 onTick 方法，忽略
         }
     }
-
     public void removeAffix(ResourceLocation affixId) {
-        affixes.remove(affixId);
+        affixesLevel.remove(affixId);
         affixCache.remove(affixId);
         affixData.remove(affixId);
         tickListeners.remove(RegisterAffixs.get(affixId));
     }
     public void addAffix(BaseAffix affix, int level) {
-        try{addAffix(affix.getResourceLocation(), level);} catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
-        }
+        addAffix(affix.getResourceLocation(), level);
     }
 
     public boolean hasAffix(BaseAffix affix) {
         return hasAffix(affix.getResourceLocation());
     }
     public Map<ResourceLocation, Integer> getAffixes() {
-        return Collections.unmodifiableMap(affixes);
+        return Collections.unmodifiableMap(affixesLevel);
     }
     public void clearAffixes() {
-        affixes.clear();
+        affixesLevel.clear();
     }
 
     public void removeAffix(BaseAffix affix) {
@@ -145,11 +169,11 @@ public class FurArmorCapability implements INBTSerializable<CompoundTag> {
     }
 
     public int getAffixLevel(ResourceLocation affixId) {
-        return affixes.getOrDefault(affixId, 0);
+        return affixesLevel.getOrDefault(affixId, 0);
     }
 
     public boolean hasAffix(ResourceLocation affixId) {
-        return affixes.containsKey(affixId);
+        return affixCache.containsKey(affixId);
     }
     public void setAffixData(ResourceLocation affixId, String key, Object value) {
         CompoundTag data = affixData.computeIfAbsent(affixId, k -> new CompoundTag());

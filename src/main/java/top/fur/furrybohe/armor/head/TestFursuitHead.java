@@ -36,7 +36,10 @@ public class TestFursuitHead extends ArmorItem implements GeoItem {
         }
         return "wolf";
     }
-
+    @Override
+    public EquipmentSlot getEquipmentSlot() {
+        return EquipmentSlot.HEAD;
+    }
     @Override
     public void registerControllers(AnimatableManager.ControllerRegistrar controllers) {
 

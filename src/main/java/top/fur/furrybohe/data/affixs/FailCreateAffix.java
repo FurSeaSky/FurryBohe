@@ -1,8 +1,10 @@
 package top.fur.furrybohe.data.affixs;
 
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.phys.Vec3;
 import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -23,7 +25,7 @@ import java.util.Random;
 public class FailCreateAffix extends BaseAffix {
 
     private static final Random RANDOM = new Random();
-    private static final double DROP_CHANCE = 0.1;
+    private static final double DROP_CHANCE = 0.001;
     private static final double MOVE_THRESHOLD = 0.0001;
 
     private final Map<Player, PlayerMovementData> movementCache = new HashMap<>();
@@ -209,7 +211,21 @@ public class FailCreateAffix extends BaseAffix {
      * 执行装备脱落
      */
     private void dropArmor(Player player, ItemStack armor) {
-        player.drop(armor,true);
+        if (armor == null || armor.isEmpty()) return;
+
+        // 遍历所有盔甲槽位
+        for (EquipmentSlot slot : EquipmentSlot.values()) {
+            if (slot.getType() == EquipmentSlot.Type.ARMOR) {
+                ItemStack current = player.getItemBySlot(slot);
+                // 找到匹配的物品（比较物品和 NBT）
+                if (ItemStack.isSameItemSameTags(current, armor)) {
+                    // 把物品从槽位移除并扔到地上
+                    player.setItemSlot(slot, ItemStack.EMPTY);
+                    player.drop(armor, true);
+                    return;
+                }
+            }
+        }
     }
 
     // ======================== 内部类 ========================

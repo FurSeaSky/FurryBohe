@@ -8,6 +8,7 @@ import top.fur.furrybohe.base.BaseAffix;
 import top.fur.furrybohe.config.repo_configs.ModInfo;
 import top.fur.furrybohe.data.affixs.FailCreateAffix;
 
+import java.awt.geom.RoundRectangle2D;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -34,14 +35,12 @@ public class RegisterAffixs {
             affix.registerEventHandlers(MinecraftForge.EVENT_BUS);
         }
     }
-
-
     public static BaseAffix get(ResourceLocation id) {
-        return AFFIXES_CLASS.get(id.getPath());
+        return AFFIXES_CLASS.get(id.toString());
     }
 
     public static BaseAffix get(String id) {
-        return AFFIXES_CLASS.containsKey(new ResourceLocation(ModInfo.MODID,id)) ? AFFIXES.get(new ResourceLocation(ModInfo.MODID,id)) : null;
+        return AFFIXES_CLASS.containsKey(new ResourceLocation(ModInfo.MODID,id).toString()) ? AFFIXES.get(new ResourceLocation(ModInfo.MODID,id)) : null;
     }
 
     public static Map<ResourceLocation, BaseAffix> getAll() {
