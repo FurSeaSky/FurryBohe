@@ -19,5 +19,5 @@ FUR_COLORS = [
             "black_fur"
     ]
 for i in FUR_COLORS:
-    with open("D:/004_Codes/001_Project/furryBohe/src/main/resources/assets/furrybohe/models/item/"+i+".json","w") as file:
+    with open("../resources/assets/furrybohe/models/item/"+i+".json","w") as file:
         file.write("""{\"parent\": \"item/generated\",\"textures\": {\"layer0\": \"furrybohe:item/"""+i+"\"}}")

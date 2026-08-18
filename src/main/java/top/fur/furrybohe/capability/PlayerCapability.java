@@ -4,6 +4,9 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.capabilities.AutoRegisterCapability;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.common.util.LazyOptional;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 @AutoRegisterCapability
 public class PlayerCapability implements INBTSerializable<CompoundTag> {
@@ -29,11 +32,20 @@ public class PlayerCapability implements INBTSerializable<CompoundTag> {
         this.player = player;
     }
 
+    public static @Nullable PlayerCapability get(@Nullable Player player) {
+        return player == null ? null : player.getCapability(PlayerCapabilityProvider.capability).orElse(null);
+    }
+
+    public static @NotNull LazyOptional<PlayerCapability> getOptional(@Nullable Player player) {
+        return player == null ? LazyOptional.empty() : player.getCapability(PlayerCapabilityProvider.capability);
+    }
+
     public int getFursuitMakerExperience() {
         return fursuitMakerExperience;
     }
 
     private void calcLevel() {
+        fursuitMakerLevel = 0;
         for (int i = 0; i < fursuitMakerExperienceArray.length; i++) {
             if (fursuitMakerExperience >= fursuitMakerExperienceArray[i]) {
                 fursuitMakerLevel = i + 1;
@@ -67,7 +79,13 @@ public class PlayerCapability implements INBTSerializable<CompoundTag> {
 
     @Override
     public void deserializeNBT(CompoundTag nbt) {
-        fursuitMakerExperience = nbt.getInt("fursuit_maker_experience");
-        fursuitMakerLevel = nbt.getInt("fursuit_maker_level");
+        fursuitMakerExperience = 0;
+        fursuitMakerLevel = 0;
+        if (nbt.contains("fursuit_maker_experience")) {
+            fursuitMakerExperience = nbt.getInt("fursuit_maker_experience");
+        }
+        if (nbt.contains("fursuit_maker_level")) {
+            fursuitMakerLevel = nbt.getInt("fursuit_maker_level");
+        }
     }
 }

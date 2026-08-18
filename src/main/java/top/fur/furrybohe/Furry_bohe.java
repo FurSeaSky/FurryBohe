@@ -30,12 +30,13 @@ public class Furry_bohe {
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
         RegisterAffixs.registerAll();
         modEventBus.addListener(this::commonSetup);
-        RegisterBlockEntitys.BLOCK_ENTITIES.register(modEventBus);
+        RegisterBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         RegisterBlocks.BLOCKS.register(modEventBus);
         RegisterCreativeTabs.CREATIVE_MODE_TABS.register(modEventBus);
         RegisterItems.ITEMS.register(modEventBus);
         RegisterEffects.EFFECTS.register(modEventBus);
         MinecraftForge.EVENT_BUS.register(new RegisterCapability());
+        RegisterAffixes.register();
     }
 
     private void commonSetup(final FMLCommonSetupEvent event) {
