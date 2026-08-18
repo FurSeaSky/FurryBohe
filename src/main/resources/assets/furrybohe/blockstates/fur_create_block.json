@@ -1,0 +1,12 @@
+{
+  "variants": {
+    "": {
+      "model": "furrybohe:block/fur_create_block"
+    }
+  },
+  "particle": {
+    "textures": {
+      "particle": "furrybohe:block/fur_create_break"
+    }
+  }
+}

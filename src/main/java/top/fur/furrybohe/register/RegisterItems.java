@@ -49,6 +49,7 @@ public class RegisterItems {
     public static final RegistryObject<Item> ITEM_FURRY_WORK_STATION = ITEMS.register("furry_workstation",()->new BlockItem(FURRY_WORK_STATION.get(),new Item.Properties()));
     public static final RegistryObject<Item> ITEM_RESIN_COLLECTOR = ITEMS.register("resin_collector", () -> new BlockItem(RESIN_COLLECTOR.get(), new Item.Properties()));
     public static final RegistryObject<Item> ITEM_CRYSTAL_WORK_BLOCK = ITEMS.register("crystal_block",()->new BlockItem(CRYSTAL_WORK_BLOCK.get(),new Item.Properties()));
+    public static final RegistryObject<Item> ITEM_FUR_CREATE_BLOCK = ITEMS.register("fur_create_block",()->new BlockItem(FUR_CREATE_BLOCK.get(),new Item.Properties()));
     public static final RegistryObject<Item> ITEM_DRYING_RACK = ITEMS.register("drying_rack",()->new BlockItem(DRYING_RACK.get(),new Item.Properties()));
 
     public static final RegistryObject<Item> ITEM_ARMOR_TEST_FURRY_HEAD = ITEMS.register("test_furry_head",()->new TestFursuitHead(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
