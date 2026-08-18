@@ -2,19 +2,25 @@ package top.fur.furrybohe.register;
 
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraftforge.common.capabilities.Capability;
+import net.minecraftforge.common.capabilities.CapabilityManager;
+import net.minecraftforge.common.capabilities.CapabilityToken;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import top.fur.furrybohe.capability.FurArmorCapability;
 import top.fur.furrybohe.capability.FurArmorCapabilityProvider;
 import top.fur.furrybohe.capability.PlayerCapability;
 import top.fur.furrybohe.capability.PlayerCapabilityProvider;
 
 public class RegisterCapability {
+    public static final Capability<FurArmorCapability> FUR_ARMOR_CAPABILITY =
+            CapabilityManager.get(new CapabilityToken<>() {});
     public static boolean shouldMountCapability(Item item) {
-        // 由于装备部分没有完成 所以为空
-        return false;
+        return item instanceof ArmorItem;
     }
 
     @SubscribeEvent
@@ -40,4 +46,5 @@ public class RegisterCapability {
         PlayerCapability newData = PlayerCapabilityProvider.get(event.getEntity());
         newData.deserializeNBT(oldData.serializeNBT());
     }
+
 }

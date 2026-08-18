@@ -1,10 +1,10 @@
 package top.fur.furrybohe.register;
 
-import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.Item;
+import net.minecraft.world.item.*;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import top.fur.furrybohe.armor.head.TestFursuitHead;
 import top.fur.furrybohe.base.BaseCrystal;
 import top.fur.furrybohe.config.repo_configs.ModInfo;
 import top.fur.furrybohe.item.*;
@@ -50,6 +50,8 @@ public class RegisterItems {
     public static final RegistryObject<Item> ITEM_RESIN_COLLECTOR = ITEMS.register("resin_collector", () -> new BlockItem(RESIN_COLLECTOR.get(), new Item.Properties()));
     public static final RegistryObject<Item> ITEM_CRYSTAL_WORK_BLOCK = ITEMS.register("crystal_block",()->new BlockItem(CRYSTAL_WORK_BLOCK.get(),new Item.Properties()));
     public static final RegistryObject<Item> ITEM_DRYING_RACK = ITEMS.register("drying_rack",()->new BlockItem(DRYING_RACK.get(),new Item.Properties()));
+
+    public static final RegistryObject<Item> ITEM_ARMOR_TEST_FURRY_HEAD = ITEMS.register("test_furry_head",()->new TestFursuitHead(ArmorMaterials.LEATHER, ArmorItem.Type.HELMET,new Item.Properties().stacksTo(1).rarity(Rarity.EPIC)));
 
     public static void registerItemForeach(){
 

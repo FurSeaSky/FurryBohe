@@ -83,6 +83,7 @@ repositories {
     maven {
         url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/'
     }
+    maven { url = "https://maven.firstdark.dev/snapshots" }
     mavenCentral()
 }
 
@@ -92,13 +93,12 @@ dependencies {
 
     // ========== Lodestone ==========
     implementation fg.deobf("team.lodestar.lodestone:lodestone:${minecraft_version}-${lodestone_version}")
-
+    implementation fg.deobf("com.lowdragmc.ldlib:ldlib-forge-${minecraft_version}:1.0.52") {transitive = false}
     // ========== Curios API (Lodestone 需要) ==========
     implementation 'com.squareup:javapoet:1.13.0'
     compileOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}+${minecraft_version}:api")
     runtimeOnly fg.deobf("top.theillusivec4.curios:curios-forge:${curios_version}+${minecraft_version}")
     implementation fg.deobf("software.bernie.geckolib:geckolib-forge-${minecraft_version}:${geckolib_version}")
-    // ========== Mixin ==========
     annotationProcessor 'org.spongepowered:mixin:0.8.5:processor'
 }
 

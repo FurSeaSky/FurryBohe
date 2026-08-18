@@ -11,18 +11,24 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import top.fur.furrybohe.config.repo_configs.ModInfo;
 import top.fur.furrybohe.network.NetworkHandler;
 import top.fur.furrybohe.register.*;
 
+
 @Mod(ModInfo.MODID)
 public class Furry_bohe {
+    public static final Logger LOGGER = LogManager.getLogger(Furry_bohe.class);
+
     public static ResourceLocation rl(String path) {
         return ResourceLocation.fromNamespaceAndPath(ModInfo.MODID, path);
     }
 
     public Furry_bohe(){
         IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
+        RegisterAffixs.registerAll();
         modEventBus.addListener(this::commonSetup);
         RegisterBlockEntities.BLOCK_ENTITIES.register(modEventBus);
         RegisterBlocks.BLOCKS.register(modEventBus);

@@ -60,5 +60,8 @@
   "text.furrybohe.collect_cat_power.info": "Your cat power:%d",
   "text.furrybohe.meow.getsuccess": "congratulations!You get a speacil advacnement!Try ToNeko Mod also!",
   "text.furrybohe.collect_cat_power.max": "Your cat power overflow!We reset to zero:%d",
-  "text.furrybohe.null_crystal.description.info": "Just a null crystal.Maybe lost some magic"
+  "text.furrybohe.null_crystal.description.info": "Just a null crystal.Maybe lost some magic",
+  "text.furrybohe.clear_debuff_crystal.description.info": "Use That and press shitft+right mouse button to remove has item's bad crystal",
+  "text.furrybohe.crystal.use.failed": "You not have any item at offhand.",
+  "text.furrybohe.clear_debuff_crystal.used": "Use Success"
 }
