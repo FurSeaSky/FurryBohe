@@ -1,0 +1,42 @@
+name: Build
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Forge build (Java 17)
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+
+      - name: Set up Temurin JDK 17
+        uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Gradle 8.8
+        uses: gradle/actions/setup-gradle@v6
+        with:
+          gradle-version: '8.8'
+          cache-provider: basic
+
+      - name: Build mod
+        run: gradle build --no-daemon
+
+      - name: Upload mod JAR
+        uses: actions/upload-artifact@v4
+        with:
+          name: FurryBohe-JAR
+          path: build/libs/*.jar
+          if-no-files-found: error
