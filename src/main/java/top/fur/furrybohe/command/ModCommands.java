@@ -154,6 +154,17 @@ public class ModCommands {
             return 0;
         }
     }
+    private static String getFursuitMakerDescript(Player player){
+        @Nullable PlayerCapability capability = PlayerCapability.get(player);
+        if(capability != null){
+            capability.getFursuitMakerLevel();
+            String[] fursuitStringArray = new String[4];
+            fursuitStringArray[0] = "level.furrybohe.noob";
+            fursuitStringArray[1] = "level.furrybohe.old";
+            fursuitStringArray[2] = "level.furrybohe.noob";
+        }
+        return "";
+    }
     private static int setFursuitMakerXp(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Player player = EntityArgument.getPlayer(context, "player");
         int xp = IntegerArgumentType.getInteger(context, "xp");
