@@ -68,7 +68,7 @@ public class ModCommands {
                                         .then(Commands.argument("xp", IntegerArgumentType.integer())
                                                 .executes(ModCommands::setFursuitMakerXp)
                                         )
-                                )
+                                ).then(Commands.literal("get").executes(ModCommands::getFursuitMakerXp))
                         )
                 )
 
@@ -125,16 +125,6 @@ public class ModCommands {
                                 )
                         )
                 )
-
-                // ===== affix list 快捷命令（列出所有可用词条） =====
-                .then(Commands.literal("affix")
-                        .then(Commands.literal("list")
-                                .executes(context -> {
-                                    Player player = context.getSource().getPlayerOrException();
-                                    return listAllAvailableAffixes(player);
-                                })
-                        )
-                )
         );
     }
 
@@ -151,7 +141,30 @@ public class ModCommands {
         }
         return 0;
     }
-
+    private static int getFursuitMakerXp(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
+        Player player = EntityArgument.getPlayer(context, "player");
+        @Nullable PlayerCapability capability = PlayerCapability.get(player);
+        if(capability != null) {
+            int xp = capability.getFursuitMakerExperience();
+            int level = capability.getFursuitMakerLevel();
+            player.sendSystemMessage(Component.translatable("commands.furrybohe.modcommands.getfursuitxp.message",xp,level));
+            return 1;
+        }else{
+            player.sendSystemMessage(Component.translatable("commands.furrybohe.modcommands.getfursuitxp.failed"));
+            return 0;
+        }
+    }
+    private static String getFursuitMakerDescript(Player player){
+        @Nullable PlayerCapability capability = PlayerCapability.get(player);
+        if(capability != null){
+            capability.getFursuitMakerLevel();
+            String[] fursuitStringArray = new String[4];
+            fursuitStringArray[0] = "level.furrybohe.noob";
+            fursuitStringArray[1] = "level.furrybohe.old";
+            fursuitStringArray[2] = "level.furrybohe.noob";
+        }
+        return "";
+    }
     private static int setFursuitMakerXp(CommandContext<CommandSourceStack> context) throws CommandSyntaxException {
         Player player = EntityArgument.getPlayer(context, "player");
         int xp = IntegerArgumentType.getInteger(context, "xp");
