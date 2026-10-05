@@ -2,11 +2,16 @@
   "required": true,
   "minVersion": "0.8",
   "package": "top.fur.furrybohe.mixin",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_17",
   "refmap": "furrybohe.refmap.json",
   "mixins": [
   ],
   "client": [
+    "client.SplashRendererMixin",
+    "client.MinecraftTitleMixin",
+    "client.SplashManagerAccessor",
+    "client.BakedGlyphAccessor",
+    "client.FontAccessor"
   ],
   "injectors": {
     "defaultRequire": 1

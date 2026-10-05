@@ -63,5 +63,8 @@
   "text.furrybohe.null_crystal.description.info": "Just a null crystal.Maybe lost some magic",
   "text.furrybohe.clear_debuff_crystal.description.info": "Use That and press shitft+right mouse button to remove has item's bad crystal",
   "text.furrybohe.crystal.use.failed": "You not have any item at offhand.",
-  "text.furrybohe.clear_debuff_crystal.used": "Use Success"
+  "text.furrybohe.clear_debuff_crystal.used": "Use Success",
+  "commands.furrybohe.modcommands.getfursuitxp.message": "Your XP:%d,Your level:%d",
+  "Error:Can't get xp,Because yor capability is null": "commands.furrybohe.modcommands.getfursuitxp.failed",
+  "commands.furrybohe.modcommands.getfursuitxp.failed": "Error:Can't get xp,Because yor capability is null"
 }
